@@ -88,12 +88,4 @@ The app follows the **MVVM architecture** to ensure a clean separation of concer
 - Uses **DataStore** to save user preference.
 - Automatically switches themes based on the stored preference.
 
----
-
-## 🎯 Future Enhancements
-- Implement search functionality to find news by keywords.
-- Add push notifications for breaking news.
-- Enable multi-language support.
-- Introduce user authentication for personalized recommendations.
-
 
