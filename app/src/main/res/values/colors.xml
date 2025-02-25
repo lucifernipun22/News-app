@@ -5,4 +5,10 @@
     <color name="primary">#121212</color>
     <color name="secondary">#616161</color>
     <color name="off_white">#E5E5E5</color>
+    <color name="background_color">#121212</color>  <!-- Dark mode background -->
+    <color name="nav_background">#222831</color>   <!-- Cool dark navbar -->
+    <color name="selected_color">#FF5722</color>   <!-- Orange accent -->
+    <color name="unselected_color">#B0BEC5</color> <!-- Light gray -->
+    <color name="shadow_color">#000000</color>    <!-- Soft shadow effect -->
+    <color name="transparent">#00000000</color>
 </resources>

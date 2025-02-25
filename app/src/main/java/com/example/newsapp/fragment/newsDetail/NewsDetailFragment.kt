@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -28,8 +29,7 @@ class NewsDetailFragment : Fragment() {
     private val newsDetailViewModel: NewsDetailViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.fragment_news_detail, container, false)
     }
@@ -39,7 +39,7 @@ class NewsDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val webView: WebView = view.findViewById(R.id.webView)
-         fabSave = view.findViewById(R.id.fabSave)
+        fabSave = view.findViewById(R.id.fabSave)
         // Get data from arguments
         articleUrl = arguments?.getString("NEWS_URL") ?: ""
         articleTitle = arguments?.getString("NEWS_TITLE") ?: "Unknown Title"
@@ -50,9 +50,28 @@ class NewsDetailFragment : Fragment() {
         webView.settings.javaScriptEnabled = true
         webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
 
-        // Load the URL in WebView
-        webView.webViewClient = WebViewClient()
+
+        // WebViewClient to control page loading
+        webView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+
+            }
+        }
+
+        // WebChromeClient to track progress
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+
+            }
+        }
+
+        // Load the news URL
+        val articleUrl = arguments?.getString("NEWS_URL") ?: ""
         webView.loadUrl(articleUrl)
+
+
         // Check if article is already saved
         lifecycleScope.launch {
             isSaved = newsDetailViewModel.isArticleSaved(articleUrl)
@@ -85,21 +104,41 @@ class NewsDetailFragment : Fragment() {
 
     private fun updateFabState() {
         if (isSaved) {
-            fabSave.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.circle_background))
-            fabSave.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.primary)
-            fabSave.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_saved_white))
+            fabSave.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(), R.drawable.circle_background
+                )
+            )
+            fabSave.backgroundTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.primary)
+            fabSave.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(), R.drawable.ic_saved_white
+                )
+            )
             fabSave.imageTintList = null // Ensures correct icon color
         } else {
-            fabSave.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.circle_background))
-            fabSave.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.secondary)
-            fabSave.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_saved_black))
+            fabSave.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(), R.drawable.circle_background
+                )
+            )
+            fabSave.backgroundTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.unselected_color)
+            fabSave.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(), R.drawable.ic_saved_black
+                )
+            )
             fabSave.imageTintList = null // Ensures correct icon color
         }
     }
 
 
     companion object {
-        fun newInstance(url: String, title: String, description: String, imageUrl: String): NewsDetailFragment {
+        fun newInstance(
+            url: String, title: String, description: String, imageUrl: String
+        ): NewsDetailFragment {
             return NewsDetailFragment().apply {
                 arguments = Bundle().apply {
                     putString("NEWS_URL", url)

@@ -28,11 +28,10 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         lifecycleScope.launch {
-            DarkModeManager.isDarkModeEnabled(this@MainActivity).collect { isEnabled ->
-                AppCompatDelegate.setDefaultNightMode(
-                    if (isEnabled) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-                )
-            }
+            val isEnabled = DarkModeManager.isDarkModeEnabled(this@MainActivity)
+            AppCompatDelegate.setDefaultNightMode(
+                if (isEnabled) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            )
         }
         val workRequest = PeriodicWorkRequestBuilder<NewsSyncWorker>(1, TimeUnit.HOURS).build()
         WorkManager.getInstance(this)
@@ -70,4 +69,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }
