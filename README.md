@@ -96,13 +96,4 @@ The app follows the **MVVM architecture** to ensure a clean separation of concer
 - Enable multi-language support.
 - Introduce user authentication for personalized recommendations.
 
----
-
-## 📜 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-## 🤝 Contributing
-Feel free to submit pull requests and help improve the project! 🚀
 
