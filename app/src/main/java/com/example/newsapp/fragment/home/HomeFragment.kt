@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
 
         // Setup RecyclerView
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
-        adapter = NewsAdapter()
+        adapter = NewsAdapter(requireActivity())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 

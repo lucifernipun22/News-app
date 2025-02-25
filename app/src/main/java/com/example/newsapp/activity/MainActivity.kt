@@ -10,6 +10,7 @@ import androidx.work.WorkManager
 import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityMainBinding
 import com.example.newsapp.fragment.home.HomeFragment
+import com.example.newsapp.fragment.newsDetail.NewsDetailFragment
 import com.example.newsapp.fragment.saved.SavedFragment
 import com.example.newsapp.utils.DarkModeManager
 import com.example.newsapp.utils.NewsSyncWorker
@@ -57,6 +58,16 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             }
             true
+        }
+
+        // Hide Bottom Navigation in NewsDetailFragment
+        supportFragmentManager.addOnBackStackChangedListener {
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+            if (currentFragment is NewsDetailFragment) {
+                binding.bottomNavigation.visibility = android.view.View.GONE
+            } else {
+                binding.bottomNavigation.visibility = android.view.View.VISIBLE
+            }
         }
     }
 }
